@@ -17,7 +17,16 @@ class UserAdmin(BaseUserAdmin):
     list_display = ['email', 'name']
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        (_('Personal Info'), {'fields': ('name', 'passage_id')}),
+        (
+            _('Personal Info'),
+            {
+                'fields': (
+                    'name',
+                    'passage_id',
+                    'foto',
+                )
+            },
+        ),
         (
             _('Permissions'),
             {
@@ -43,6 +52,7 @@ class UserAdmin(BaseUserAdmin):
                     'password1',
                     'password2',
                     'name',
+                    'foto',
                     'is_active',
                     'is_staff',
                     'is_superuser',
@@ -51,13 +61,19 @@ class UserAdmin(BaseUserAdmin):
         ),
     )
 
+
 @admin.register(Livro)
 class LivroAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'categoria', 'editora',)
+    list_display = (
+        'titulo',
+        'categoria',
+        'editora',
+    )
     search_fields = ('titulo', 'editora__nome', 'categoria__descricao', 'isbn')
     list_filter = ('editora', 'categoria')
     ordering = ('categoria', 'editora', 'titulo')
     list_per_page = 10
+
 
 @admin.register(Autor)
 class AutorAdmin(admin.ModelAdmin):
@@ -67,6 +83,7 @@ class AutorAdmin(admin.ModelAdmin):
     ordering = ('nome', 'email')
     list_per_page = 10
 
+
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):
     list_display = ('descricao',)
@@ -74,6 +91,7 @@ class CategoriaAdmin(admin.ModelAdmin):
     list_filter = ('descricao',)
     ordering = ('descricao',)
     list_per_page = 10
+
 
 @admin.register(Editora)
 class EditoraAdmin(admin.ModelAdmin):
