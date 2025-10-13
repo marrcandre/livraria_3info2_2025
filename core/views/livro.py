@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -22,6 +23,11 @@ class LivroViewSet(ModelViewSet):
             return LivroRetrieveSerializer
         return LivroSerializer
 
+    @extend_schema(
+        request=LivroAlterarPrecoSerializer,
+        responses={200: None},
+        description="Altera o preço do livro especificado."
+    )
     @action(detail=True, methods=['patch'])
     def alterar_preco(self, request, pk=None):
         livro = self.get_object()

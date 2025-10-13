@@ -1,4 +1,5 @@
 from django.utils import timezone
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -24,6 +25,11 @@ class CompraViewSet(ModelViewSet):
             return Compra.objects.order_by('-id')
         return Compra.objects.filter(usuario=usuario).order_by('-id')
 
+    @extend_schema(
+        responses={200: None},
+        description="Relatório de vendas do mês atual.",
+        summary="Relatório de vendas do mês atual"
+    )
     @action(detail=False, methods=['get'])
     def relatorio_vendas_mes(self, request):
         agora = timezone.now()
@@ -40,8 +46,10 @@ class CompraViewSet(ModelViewSet):
         return Response(
                 {
                         "status": "Relatório de vendas deste mês",
+                        "data base": inicio_mes,
                         "total_vendas": total_vendas,
                         "quantidade_vendas": quantidade_vendas,
+                        "ticket médio": total_vendas/quantidade_vendas,
                 },
                 status=status.HTTP_200_OK,
         )
