@@ -92,7 +92,7 @@ class CompraViewSet(ModelViewSet):
                         "data base": inicio_mes,
                         "total_vendas": total_vendas,
                         "quantidade_vendas": quantidade_vendas,
-                        "ticket médio": total_vendas/quantidade_vendas,
+                        "ticket médio": total_vendas / quantidade_vendas,
                 },
                 status=status.HTTP_200_OK,
         )
