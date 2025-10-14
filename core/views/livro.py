@@ -3,6 +3,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import OpenApiExample, extend_schema
 from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -27,8 +28,9 @@ class LivroViewSet(ModelViewSet):
             return LivroRetrieveSerializer
         return LivroSerializer
 
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ['categoria', 'categoria__descricao', 'editora__nome']  # Campos para filtragem
+    search_fields = ['titulo', 'categoria__descricao',]  # Campos para busca
 
     @extend_schema(
         summary="Ajusta o estoque de um livro",
